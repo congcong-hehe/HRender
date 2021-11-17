@@ -1,6 +1,7 @@
+// make by hyq
+// 2021/11/17
+
 #pragma once
 
-#include <iostream>
-#include <algorithm>
-
-using namespace std;
+#include <string>
+const std::string current_path = "D:/study_data/pro/mypro/HRender/HRender/";

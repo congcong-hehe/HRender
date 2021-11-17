@@ -1,4 +1,8 @@
 #pragma once
+#include "../math/vec3f.h"
 
-void mathTest();
+using namespace Math;
 
+void mathTest() {
+    
+}

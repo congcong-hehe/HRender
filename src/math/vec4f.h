@@ -1,6 +1,7 @@
-# pragma once
+// created by hyq
+// 2021/10/22
 
-#include <cmath>
+# pragma once
 
 namespace Math{
 
