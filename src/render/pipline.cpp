@@ -4,7 +4,7 @@
 #include "pipline.h"
 #include <algorithm>
 #include "../base.h"
-#include "../shader/base_shader.h"
+#include "../shader/interpolation_shader.h"
 
 using namespace std;
 using namespace Math;
@@ -31,7 +31,7 @@ void Pipeline::setImage(int w, int h, int c) {
 }
 
 void Pipeline::vertexShader() {
-    auto vs = dynamic_pointer_cast<BaseVSShader>(vs_);
+    auto vs = dynamic_pointer_cast<InterVSShader>(vs_);
 
     auto &vertices = mesh_->getVertices();
     screen_vertices_.resize(vertices.size());
@@ -69,7 +69,7 @@ Vec3f barycentric(Vec2f A, Vec2f B, Vec2f C, Vec2f P) {
 // https://developer.nvidia.com/content/life-triangle-nvidias-logical-pipeline 
 // 从上面的链接可以看出光栅化之后，片段着色器和其在一个模块中分为多个运行
 void Pipeline::rasterAndFragmentShader() {
-    auto fs = dynamic_pointer_cast<BaseFSShader>(fs_);
+    auto fs = dynamic_pointer_cast<InterFSShader>(fs_);
 
     auto &vertex_indices = mesh_->getVertexIndices();
     for(int j = 0; j < vertex_indices.size(); ++j) {
@@ -98,10 +98,16 @@ void Pipeline::rasterAndFragmentShader() {
                 Vec3f bc = barycentric(A, B, C, P);
                 if(bc.x < 0 || bc.y < 0 || bc.z < 0) continue;  // 点不在三角形中
 
-                // 顶点着色器 
+                Vec3f color;
+                color += mesh_->getColors()[vertex_indice.x] * bc.x;
+                color += mesh_->getColors()[vertex_indice.y] * bc.y;
+                color += mesh_->getColors()[vertex_indice.z] * bc.z;
+
+                // 顶点着色器
+                fs->color = color;
                 fs->execute();
 
-                image_.setColor(x, y, Vec3f(fs->frag_color.x, fs->frag_color.y, fs->frag_color.z));
+                image_.setColor(x, y, fs->frag_color);
             }
         }
     }
@@ -113,5 +119,5 @@ void Pipeline::renderMesh(shared_ptr<TriMesh> mesh) {
     vertexShader();
     rasterAndFragmentShader();
 
-    image_.write(current_path + "result/triangle_uniform.png");
+    image_.write(path_);
 }

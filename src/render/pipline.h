@@ -25,6 +25,7 @@ public:
 
     inline void setVertexShader(const std::shared_ptr<VertexShader> vs) { vs_ = vs; }
     inline void setFragmentShader(const std::shared_ptr<FragmentShader> fs) { fs_ = fs; }
+    inline void setPath(const std::string &path) { path_ = path; }
 
 private:
     Context context_;
@@ -34,6 +35,7 @@ private:
     int h_ = 400;
     std::shared_ptr<VertexShader> vs_ = nullptr;
     std::shared_ptr<FragmentShader> fs_ = nullptr;
+    std::string path_;
 
 private:
     std::vector<Math::Vec2f> screen_vertices_; // 经过坐标变换到显示窗口坐标系的顶点位置
