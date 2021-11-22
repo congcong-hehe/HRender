@@ -7,4 +7,5 @@ xmake run
 ```
 ## Feature
 1. uniform triangle
+
 ![img](result/triangle_uniform.png)
