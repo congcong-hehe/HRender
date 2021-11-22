@@ -1,0 +1,31 @@
+[
+{
+  "directory": "D:\\study_data\\pro\\mypro\\HRender\\HRender",
+  "arguments": ["C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.28.29910\\bin\\HostX64\\x64\\cl.exe", "/c", "/EHsc", "/nologo", "/Fobuild\\.objs\\HRender\\windows\\x64\\release\\src\\main.cpp.obj", "src\\main.cpp"],
+  "file": "src\\main.cpp"
+},
+{
+  "directory": "D:\\study_data\\pro\\mypro\\HRender\\HRender",
+  "arguments": ["C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.28.29910\\bin\\HostX64\\x64\\cl.exe", "/c", "/EHsc", "/nologo", "/Fobuild\\.objs\\HRender\\windows\\x64\\release\\src\\object\\tri_mesh.cpp.obj", "src\\object\\tri_mesh.cpp"],
+  "file": "src\\object\\tri_mesh.cpp"
+},
+{
+  "directory": "D:\\study_data\\pro\\mypro\\HRender\\HRender",
+  "arguments": ["C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.28.29910\\bin\\HostX64\\x64\\cl.exe", "/c", "/EHsc", "/nologo", "/Fobuild\\.objs\\HRender\\windows\\x64\\release\\src\\render\\context.cpp.obj", "src\\render\\context.cpp"],
+  "file": "src\\render\\context.cpp"
+},
+{
+  "directory": "D:\\study_data\\pro\\mypro\\HRender\\HRender",
+  "arguments": ["C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.28.29910\\bin\\HostX64\\x64\\cl.exe", "/c", "/EHsc", "/nologo", "/Fobuild\\.objs\\HRender\\windows\\x64\\release\\src\\render\\image.cpp.obj", "src\\render\\image.cpp"],
+  "file": "src\\render\\image.cpp"
+},
+{
+  "directory": "D:\\study_data\\pro\\mypro\\HRender\\HRender",
+  "arguments": ["C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.28.29910\\bin\\HostX64\\x64\\cl.exe", "/c", "/EHsc", "/nologo", "/Fobuild\\.objs\\HRender\\windows\\x64\\release\\src\\render\\pipline.cpp.obj", "src\\render\\pipline.cpp"],
+  "file": "src\\render\\pipline.cpp"
+},
+{
+  "directory": "D:\\study_data\\pro\\mypro\\HRender\\HRender",
+  "arguments": ["C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.28.29910\\bin\\HostX64\\x64\\cl.exe", "/c", "/EHsc", "/nologo", "/Fobuild\\.objs\\HRender\\windows\\x64\\release\\src\\render\\texture.cpp.obj", "src\\render\\texture.cpp"],
+  "file": "src\\render\\texture.cpp"
+}]

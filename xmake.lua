@@ -3,7 +3,7 @@ add_rules("mode.debug", "mode.release")
 target("HRender")
     set_kind("binary")
     add_files("src/*.cpp")
-    add_files("src/pipeline/*.cpp")
+    add_files("src/object/*.cpp")
     add_files("src/render/*.cpp")
 --
 -- If you want to known more usage about xmake, please see https://xmake.io

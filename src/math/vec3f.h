@@ -39,13 +39,13 @@ public:
     union {
         struct { float x, y, z; };
         struct { float r, g, b; };
-        struct { float v[3];    };
+        struct { float vec[3];    };
     };
 
 };
 
-inline float dot(Vec3f &v1, Vec3f &v2)      { return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z; } 
-inline Vec3f cross(Vec3f &v1, Vec3f &v2) {
+inline float dot(const Vec3f &v1, const Vec3f &v2)      { return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z; } 
+inline Vec3f cross(const Vec3f &v1, const Vec3f &v2) {
     return Vec3f(v1.y * v2.z - v2.y * v1.z, v1.z * v2.x - v2.z * v1.x, v1.x * v2.y - v2.x * v1.y);
 }
 

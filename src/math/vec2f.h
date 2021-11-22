@@ -12,6 +12,7 @@ class Vec2f
 public:
     Vec2f() : x(0), y(0)  {}
     Vec2f(float _x, float _y) : x(_x), y(_y) {}
+    Vec2f(const Vec2f &v) { x = v.x; y = v.y; }
 
     inline Vec2f operator + (const float a) const       { return Vec2f(x + a, y + a); }
     inline Vec2f operator - (const float a) const       { return Vec2f(x - a, y - a); }
@@ -41,7 +42,7 @@ public:
     union {
         struct { float x, y; };
         struct { float u, v; };
-        struct { float v[2]; };
+        struct { float vec[2]; };
     };
 
 };

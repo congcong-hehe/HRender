@@ -19,10 +19,10 @@ Image::~Image() {
     stbi_image_free(data_);
 }
 
-bool Image::read(const string file_path) {
+bool Image::read(const string &file_path) {
     data_ = stbi_load(file_path.c_str(), &width_, &height_, &channels_, channels_);
     if(!data_) {
-        printf("ERROR: Could not load image file %s\n", file_path.c_str());
+        printf("ERROR: Could not read image file %s\n", file_path.c_str());
         return false;
     } else {
         printf("LOG: Load image file %s\n", file_path.c_str());
@@ -31,7 +31,7 @@ bool Image::read(const string file_path) {
 }
 
 // 暂时全部保存为png形式
-bool Image::write(const string file_path) {
+bool Image::write(const string &file_path) {
     int tag = stbi_write_png(file_path.c_str(), width_, height_, channels_, data_, width_ * channels_);
     if(0 == tag) {
         printf("ERROR: Could not write image file %s\n", file_path.c_str());
@@ -42,38 +42,37 @@ bool Image::write(const string file_path) {
     }
 }
 
-inline int Image::getHeight() const {
-    return height_;
+Vec3f Image::getColor(const int u, const int v) const {
+    assert(u < height_ && u >= 0);
+    assert(v < width_ && v >= 0);
+
+    float scale = 1/255.0f;
+    int index = u * channels_ * width_ + v * channels_;
+    return Vec3f(scale * data_[index], scale * data_[index + 1], scale * data_[index + 2]);
 }
 
-inline int Image::getWidth() const {
-    return width_;
+Vec3f Image::getColor(const float u, const float v) const {
+    return getColor(static_cast<int>(u * height_), static_cast<int>(v * width_));
 }
 
-inline int Image::getChannels() const {
-    return channels_;
+void Image::setColor(const int u, const int v, const Vec3f &color) const {
+    assert(u < height_ && u >= 0);
+    assert(v < width_ && v >= 0);
+
+    float scale = 255.0f;
+    int index = u * channels_ * width_ + v * channels_;
+    data_[index] = static_cast<int>(color.r * scale);
+    data_[index + 1] = static_cast<int>(color.g * scale);
+    data_[index + 2] = static_cast<int>(color.b * scale);
 }
 
-inline void Image::setWidth(const int w) {
-    width_ = w;
-}
-
-inline void Image::setHeight(const int h) {
-    height_ = h;
-}
-
-inline void Image::setChannels(const int c) {
-    channels_ = c;
-}
-
-Math::Vec3f Image::getColor(const int u, const int v) const {
-    return Vec3f();
-}
-
-Math::Vec3f Image::getColor(const float u, const float v) const {
-    return Vec3f();
-}
-
-inline bool Image::empty() const {
-    return !data_;
+bool Image::init() {
+    data_  = (unsigned char*)stbi__malloc(width_ * height_ * channels_);
+    if(!data_) {
+        printf("ERROR: Could not malloc memory for image\n");
+        return false;
+    } else {
+        memset(data_, 0, width_ * height_ * channels_);
+        return true;
+    }
 }
