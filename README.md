@@ -11,4 +11,5 @@ xmake run
 ![img](result/triangle_uniform.png)
 
 2. Interpolation
+
 ![img](result/interpolation.png)
