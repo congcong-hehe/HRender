@@ -25,9 +25,9 @@ class BaseFSShader : public FragmentShader {
 public:
 
     // out
-    Math::Vec4f frag_color; 
+    Math::Vec3f frag_color; 
 
     void execute() override {
-        frag_color = Math::Vec4f(1.0f, 0.5f, 0.2f, 1.0f);
+        frag_color = Math::Vec3f(1.0f, 0.5f, 0.2f);
     };
 };

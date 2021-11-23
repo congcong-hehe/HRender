@@ -1,6 +1,6 @@
 #include "../render/pipline.h"
 #include <stdio.h>
-#include "../shader/interpolation_shader.h"
+#include "../shader/base_shader.h"
 #include "../base.h"
 
 using namespace std;
@@ -12,10 +12,10 @@ void pipelineTest() {
     // 绘制填充的三角形
     { 
         pipeline.init(400, 400);
-        pipeline.setPath(current_path + "result/interpolation.png");
+        pipeline.setPath(current_path + "result/wire.png");
         
-        shared_ptr<VertexShader> vs = make_shared<InterVSShader>();
-        shared_ptr<FragmentShader> fs = make_shared<InterFSShader>();
+        shared_ptr<VertexShader> vs = make_shared<BaseVSShader>();
+        shared_ptr<FragmentShader> fs = make_shared<BaseFSShader>();
         pipeline.setVertexShader(vs);
         pipeline.setFragmentShader(fs);
 
@@ -27,6 +27,7 @@ void pipelineTest() {
         vector<Vec3f> colors = {Vec3f(1.0f, 0.0f, 0.0f), Vec3f(0.0f, 1.0f, 0.0f), Vec3f(0.0f, 0.0f, 1.0f)};
         mesh->setColors(colors);
 
+        pipeline.setPolygonMode(Mode::WIRE);
         pipeline.renderMesh(mesh);
     }
 }

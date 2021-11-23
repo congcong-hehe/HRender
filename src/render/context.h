@@ -7,7 +7,7 @@ enum class Mode { WIRE, FILL};
 
 class Context {
 public:
-    Mode mode;
+    Mode mode;  // 绘制的模式：线框还是填充
 
     Context();
     ~Context();

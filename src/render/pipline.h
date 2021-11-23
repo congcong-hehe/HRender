@@ -22,10 +22,14 @@ public:
     void vertexShader();
     void rasterAndFragmentShader();
     void renderMesh(std::shared_ptr<TriMesh> mesh);
+    void drawLine(int x0, int y0, int x1, int y1, Math::Vec3f &color);
 
     inline void setVertexShader(const std::shared_ptr<VertexShader> vs) { vs_ = vs; }
     inline void setFragmentShader(const std::shared_ptr<FragmentShader> fs) { fs_ = fs; }
     inline void setPath(const std::string &path) { path_ = path; }
+
+    // 设置context
+    inline void setPolygonMode(Mode mode) { context_.mode = mode; }
 
 private:
     Context context_;

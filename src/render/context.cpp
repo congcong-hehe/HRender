@@ -12,5 +12,5 @@ Context::~Context() {
 }
 
 void Context::reset() {
-    
+    mode = Mode::FILL;
 }

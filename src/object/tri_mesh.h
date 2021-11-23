@@ -27,8 +27,8 @@ public:
     inline void setUVIndices(const std::vector<Math::Vec3i> &indices) { uv_indices_ = indices; }
     inline void setColorIndices(const std::vector<Math::Vec3i> &indices) { color_indices_ = indices; }
 
-    inline std::vector<Math::Vec3f>  getVertices() { return vertices_; }
-    inline std::vector<Math::Vec3f>  getColors() { return colors_; }
+    inline std::vector<Math::Vec3f> getVertices() { return vertices_; }
+    inline std::vector<Math::Vec3f> getColors() { return colors_; }
     inline std::vector<Math::Vec3i> getVertexIndices() { return vertex_indices_; }
     inline std::vector<Math::Vec3i> getNormalIndices() { return normal_indices_; }
     inline std::vector<Math::Vec3i> getUVIndices() { return uv_indices_; }

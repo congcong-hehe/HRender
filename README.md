@@ -13,3 +13,7 @@ xmake run
 2. Interpolation
 
 ![img](result/interpolation.png)
+
+3.wire
+
+![img](result/wire.png)
