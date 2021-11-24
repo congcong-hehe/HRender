@@ -11,7 +11,7 @@ public:
     Image();
     ~Image();
     bool read(const std::string &file_path);
-    bool write(const std::string &file_path);
+    bool write(const std::string &file_path) const;
     Math::Vec3f getColor(const int u, const int v) const;
     Math::Vec3f getColor(const float u, const float v) const;
     void setColor(const int u, const int v, const Math::Vec3f &color) const;
@@ -26,8 +26,8 @@ public:
     inline bool empty() const {return !data_; };
 
 private:
-    int width_ = 800;
-    int height_ = 600;
+    int width_ = 512;
+    int height_ = 512;
     int channels_ = 3;
     unsigned char *data_ = nullptr;
 };

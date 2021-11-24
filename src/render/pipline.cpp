@@ -5,6 +5,11 @@
 #include <algorithm>
 #include "../base.h"
 #include "../shader/base_shader.h"
+#include "../object/tri_mesh.h"
+#include "../math/vec3f.h"
+#include "../math/vec2f.h"
+#include "../math/vec2i.h"
+#include "image.h"
 
 using namespace std;
 using namespace Math;
@@ -152,7 +157,8 @@ void Pipeline::rasterAndFragmentShader() {
                     Vec2f &v0 = screen_vertices_[vertex_indice.vec[i % 3]];
                     Vec2f &v1 = screen_vertices_[vertex_indice.vec[(i + 1) % 3]];
                     fs->execute();
-                    drawLine(v0.x, v0.y, v1.x, v1.y, fs->frag_color);
+                    drawLine(static_cast<int>(v0.x), static_cast<int>(v0.y), static_cast<int>(v1.x), static_cast<int>(v1.y),
+                        fs->frag_color);
                 }
             }
         break;

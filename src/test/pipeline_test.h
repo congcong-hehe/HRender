@@ -11,7 +11,7 @@ void pipelineTest() {
 
     // 绘制填充的三角形
     { 
-        pipeline.init(400, 400);
+        pipeline.init(512, 512);
         pipeline.setPath(current_path + "result/wire.png");
         
         shared_ptr<VertexShader> vs = make_shared<BaseVSShader>();

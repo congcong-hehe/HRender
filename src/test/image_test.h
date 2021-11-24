@@ -40,14 +40,15 @@ void imageTest() {
     // }
 
     // 写入像素2，检查是否颠倒与颜色是否正确
-    // {
-    //     image.read(current_path + "assets/image/wall.jpg");
-    //     for(int i = 0; i < image.getHeight(); ++i) {
-    //         for(int j = 0; j < image.getWidth(); ++j) {
-    //             image.setColor(i, j, image.getColor(i, j));
-    //         }
-    //     }
-    //     image.write(current_path + "result/wall_copy.png");
-    // }
+    {
+        image.read(current_path + "assets/awesomeface.png");
+        printf("%d %d %d\n", image.getWidth(), image.getHeight(), image.getChannels());
+        for(int i = 0; i < image.getHeight(); ++i) {
+            for(int j = 0; j < image.getWidth(); ++j) {
+                image.setColor(i, j, image.getColor(i, j));
+            }
+        }
+        image.write(current_path + "result/awesomeface_copy.png");
+    }
 
 }

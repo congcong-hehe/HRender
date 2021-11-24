@@ -3,14 +3,14 @@
 
 #pragma once
 
+#include <vector>
+#include <memory>
 #include "context.h"
 #include "../math/vec3f.h"
-#include "../math/vec2f.h"
 #include "../math/vec2i.h"
-#include <vector>
+#include "../math/vec2f.h"
 #include "image.h"
 #include "../object/tri_mesh.h"
-#include <memory>
 #include "../shader/shader.h"
 
 class Pipeline {

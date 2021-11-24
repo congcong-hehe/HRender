@@ -8,6 +8,8 @@
 #include "../../third_party/stb_image_write.h"
 #include <iostream>
 #include <string>
+#include "../math/vec3f.h"
+
 using namespace std;
 using namespace Math;
 
@@ -20,7 +22,9 @@ Image::~Image() {
 }
 
 bool Image::read(const string &file_path) {
-    data_ = stbi_load(file_path.c_str(), &width_, &height_, &channels_, channels_);
+    int channels = 0;
+    // 读取image的时候，分配的内存是按照自己设置的channels来分配的，channels输出的是image的位深度
+    data_ = stbi_load(file_path.c_str(), &width_, &height_, &channels, channels_);
     if(!data_) {
         printf("ERROR: Could not read image file %s\n", file_path.c_str());
         return false;
@@ -31,8 +35,8 @@ bool Image::read(const string &file_path) {
 }
 
 // 暂时全部保存为png形式
-bool Image::write(const string &file_path) {
-    int tag = stbi_write_png(file_path.c_str(), width_, height_, channels_, data_, width_ * channels_);
+bool Image::write(const string &file_path) const {
+    int tag = stbi_write_png(file_path.c_str(), width_, height_, 3, data_, width_ * 3);
     if(0 == tag) {
         printf("ERROR: Could not write image file %s\n", file_path.c_str());
         return false;
