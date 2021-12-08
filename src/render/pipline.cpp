@@ -5,10 +5,6 @@
 #include <algorithm>
 #include "../base.h"
 #include "../shader/base_shader.h"
-#include "../object/tri_mesh.h"
-#include "../math/vec3f.h"
-#include "../math/vec2f.h"
-#include "../math/vec2i.h"
 #include "image.h"
 
 using namespace std;

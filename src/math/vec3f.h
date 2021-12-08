@@ -11,29 +11,29 @@ public:
     Vec3f() : x(0), y(0), z(0)  {}
     Vec3f(float _x, float _y , float _z) : x(_x), y(_y), z(_z) {}
 
-    inline Vec3f operator + (const float a) const       { return Vec3f(x + a, y + a, z + a); }
-    inline Vec3f operator - (const float a) const       { return Vec3f(x - a, y - a, z - a); }
-    inline Vec3f operator * (const float a) const       { return Vec3f(x * a, y * a, z * a); }
-    inline Vec3f operator / (const float a) const       { return Vec3f(x / a, y / a, z / a); }
+    Vec3f operator + (const float a) const       { return Vec3f(x + a, y + a, z + a); }
+    Vec3f operator - (const float a) const       { return Vec3f(x - a, y - a, z - a); }
+    Vec3f operator * (const float a) const       { return Vec3f(x * a, y * a, z * a); }
+    Vec3f operator / (const float a) const       { return Vec3f(x / a, y / a, z / a); }
 
-    inline Vec3f& operator += (const float a)     { x += a; y += a; z += a; return *this; }
-    inline Vec3f& operator -= (const float a)     { x -= a; y -= a; z -= a; return *this; }
-    inline Vec3f& operator *= (const float a)     { x *= a; y *= a; z *= a; return *this; }
-    inline Vec3f& operator /= (const float a)     { x /= a; y /= a; z /= a; return *this; }
+    Vec3f& operator += (const float a)     { x += a; y += a; z += a; return *this; }
+    Vec3f& operator -= (const float a)     { x -= a; y -= a; z -= a; return *this; }
+    Vec3f& operator *= (const float a)     { x *= a; y *= a; z *= a; return *this; }
+    Vec3f& operator /= (const float a)     { x /= a; y /= a; z /= a; return *this; }
 
-    inline Vec3f operator + (const Vec3f &v) const      { return Vec3f(x + v.x, y + v.y, z + v.z); }
-    inline Vec3f operator - (const Vec3f &v) const      { return Vec3f(x - v.x, y - v.y, z - v.z); }
-    inline Vec3f operator * (const Vec3f &v) const      { return Vec3f(x * v.x, y * v.y, z * v.z); }
+    Vec3f operator + (const Vec3f &v) const      { return Vec3f(x + v.x, y + v.y, z + v.z); }
+    Vec3f operator - (const Vec3f &v) const      { return Vec3f(x - v.x, y - v.y, z - v.z); }
+    Vec3f operator * (const Vec3f &v) const      { return Vec3f(x * v.x, y * v.y, z * v.z); }
 
-    inline Vec3f& operator += (const Vec3f &v)      { x+= v.x; y += v.y; z += v.z; return *this; }
-    inline Vec3f& operator -= (const Vec3f &v)      { x-= v.x; y -= v.y; z -= v.z; return *this; }
-    inline Vec3f& operator *= (const Vec3f &v)      { x*= v.x; y *= v.y; z *= v.z; return *this; }
+    Vec3f& operator += (const Vec3f &v)      { x+= v.x; y += v.y; z += v.z; return *this; }
+    Vec3f& operator -= (const Vec3f &v)      { x-= v.x; y -= v.y; z -= v.z; return *this; }
+    Vec3f& operator *= (const Vec3f &v)      { x*= v.x; y *= v.y; z *= v.z; return *this; }
 
-    inline bool operator == (const Vec3f &v) const      { return x == v.x && y == v.y && z == v.z; }
-    inline bool operator != (const Vec3f &v) const      { return x != v.x && y != v.y && z != v.z; }
+    bool operator == (const Vec3f &v) const      { return x == v.x && y == v.y && z == v.z; }
+    bool operator != (const Vec3f &v) const      { return x != v.x && y != v.y && z != v.z; }
 
-    inline float norm() const     { return sqrt(normSquare()); }
-    inline float normSquare() const     { return x * x + y * y + z * z; }
+    float norm() const     { return sqrt(normSquare()); }
+    float normSquare() const     { return x * x + y * y + z * z; }
 
 public:
     union {

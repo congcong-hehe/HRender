@@ -36,7 +36,7 @@ bool Image::read(const string &file_path) {
 
 // 暂时全部保存为png形式
 bool Image::write(const string &file_path) const {
-    int tag = stbi_write_png(file_path.c_str(), width_, height_, 3, data_, width_ * 3);
+    int tag = stbi_write_png(file_path.c_str(), width_, height_, channels_, data_, width_ * channels_);
     if(0 == tag) {
         printf("ERROR: Could not write image file %s\n", file_path.c_str());
         return false;

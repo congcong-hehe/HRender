@@ -14,29 +14,29 @@ public:
     Vec2f(float _x, float _y) : x(_x), y(_y) {}
     Vec2f(const Vec2f &v) { x = v.x; y = v.y; }
 
-    inline Vec2f operator + (const float a) const       { return Vec2f(x + a, y + a); }
-    inline Vec2f operator - (const float a) const       { return Vec2f(x - a, y - a); }
-    inline Vec2f operator * (const float a) const       { return Vec2f(x * a, y * a); }
-    inline Vec2f operator / (const float a) const       { return Vec2f(x / a, y / a); }
+    Vec2f operator + (const float a) const       { return Vec2f(x + a, y + a); }
+    Vec2f operator - (const float a) const       { return Vec2f(x - a, y - a); }
+    Vec2f operator * (const float a) const       { return Vec2f(x * a, y * a); }
+    Vec2f operator / (const float a) const       { return Vec2f(x / a, y / a); }
 
-    inline Vec2f& operator += (const float a)     { x += a; y += a; return *this; }
-    inline Vec2f& operator -= (const float a)     { x -= a; y -= a; return *this; }
-    inline Vec2f& operator *= (const float a)     { x *= a; y *= a; return *this; }
-    inline Vec2f& operator /= (const float a)     { x /= a; y /= a; return *this; }
+    Vec2f& operator += (const float a)     { x += a; y += a; return *this; }
+    Vec2f& operator -= (const float a)     { x -= a; y -= a; return *this; }
+    Vec2f& operator *= (const float a)     { x *= a; y *= a; return *this; }
+    Vec2f& operator /= (const float a)     { x /= a; y /= a; return *this; }
 
-    inline Vec2f operator + (const Vec2f &v) const      { return Vec2f(x + v.x, y + v.y); }
-    inline Vec2f operator - (const Vec2f &v) const      { return Vec2f(x - v.x, y - v.y); }
-    inline Vec2f operator * (const Vec2f &v) const      { return Vec2f(x * v.x, y * v.y); }
+    Vec2f operator + (const Vec2f &v) const      { return Vec2f(x + v.x, y + v.y); }
+    Vec2f operator - (const Vec2f &v) const      { return Vec2f(x - v.x, y - v.y); }
+    Vec2f operator * (const Vec2f &v) const      { return Vec2f(x * v.x, y * v.y); }
 
-    inline Vec2f& operator += (const Vec2f &v)      { x+= v.x; y += v.y; return *this; }
-    inline Vec2f& operator -= (const Vec2f &v)      { x-= v.x; y -= v.y; return *this; }
-    inline Vec2f& operator *= (const Vec2f &v)      { x*= v.x; y *= v.y; return *this; }
+    Vec2f& operator += (const Vec2f &v)      { x+= v.x; y += v.y; return *this; }
+    Vec2f& operator -= (const Vec2f &v)      { x-= v.x; y -= v.y; return *this; }
+    Vec2f& operator *= (const Vec2f &v)      { x*= v.x; y *= v.y; return *this; }
 
-    inline bool operator == (const Vec2f &v) const      { return x == v.x && y == v.y; }
-    inline bool operator != (const Vec2f &v) const      { return x != v.x && y != v.y; }
+    bool operator == (const Vec2f &v) const      { return x == v.x && y == v.y; }
+    bool operator != (const Vec2f &v) const      { return x != v.x && y != v.y; }
 
-    inline float norm() const     { return sqrt(normSquare()); }
-    inline float normSquare() const     { return x * x + y * y; }
+    float norm() const     { return sqrt(normSquare()); }
+    float normSquare() const     { return x * x + y * y; }
 
 public:
     union {

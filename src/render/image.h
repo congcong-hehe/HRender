@@ -17,13 +17,13 @@ public:
     void setColor(const int u, const int v, const Math::Vec3f &color) const;
     bool init();
 
-    inline int getHeight() const { return height_; }
-    inline int getWidth() const { return width_; }
-    inline int getChannels() const { return channels_; } 
-    inline void setWidth(const int w) { width_ = w; }
-    inline void setHeight(const int h) { height_ = h; }
-    inline void setChannels(const int c) { channels_ = c; }
-    inline bool empty() const {return !data_; };
+    int getHeight() const { return height_; }
+    int getWidth() const { return width_; }
+    int getChannels() const { return channels_; } 
+    void setWidth(const int w) { width_ = w; }
+    void setHeight(const int h) { height_ = h; }
+    void setChannels(const int c) { channels_ = c; }
+    bool empty() const {return !data_; };
 
 private:
     int width_ = 512;
