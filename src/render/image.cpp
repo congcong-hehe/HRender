@@ -8,7 +8,7 @@
 #include "../../third_party/stb_image_write.h"
 #include <iostream>
 #include <string>
-#include "../math/vec3f.h"
+#include "../math/vec3.h"
 
 using namespace std;
 using namespace Math;
@@ -68,6 +68,14 @@ void Image::setColor(const int u, const int v, const Vec3f &color) const {
     data_[index] = static_cast<int>(color.r * scale);
     data_[index + 1] = static_cast<int>(color.g * scale);
     data_[index + 2] = static_cast<int>(color.b * scale);
+}
+
+void Image::setBackColor(const Math::Vec3f &color) const
+{
+    for(int i = 0; i < height_; ++i) {
+        for(int j = 0; j < width_; ++j)
+            setColor(i, j, color);
+    }
 }
 
 bool Image::init() {

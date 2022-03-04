@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "../math/vec4f.h"
+#include "../math/vec4.h"
 
 class Shader {
 public:

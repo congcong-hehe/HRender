@@ -4,7 +4,7 @@
 #pragma once
 
 #include "shader.h"
-#include "../math/vec3f.h"
+#include "../math/vec3.h"
 
 // 对应 https://learnopengl-cn.github.io/01%20Getting%20started/04%20Hello%20Triangle/
 // 正交变换画出基本的三角形

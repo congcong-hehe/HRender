@@ -10,12 +10,12 @@ void imageTest() {
     Image image;
 
     // 基本读写
-    // {
-    //     // 文件读取
-    //     image.read(current_path + "assets/wall.jpg");
-    //     // 文件写入
-    //     image.write(current_path + "result/wall.png");
-    // }
+    {
+        // 文件读取
+        image.read(current_path + "assets/wall.jpg");
+        // 文件写入
+        image.write(current_path + "result/wall.png");
+    }
 
     // 取像素
     // {
@@ -40,15 +40,24 @@ void imageTest() {
     // }
 
     // 写入像素2，检查是否颠倒与颜色是否正确
-    {
-        image.read(current_path + "assets/awesomeface.png");
-        printf("%d %d %d\n", image.getWidth(), image.getHeight(), image.getChannels());
-        for(int i = 0; i < image.getHeight(); ++i) {
-            for(int j = 0; j < image.getWidth(); ++j) {
-                image.setColor(i, j, image.getColor(i, j));
-            }
-        }
-        image.write(current_path + "result/awesomeface_copy.png");
-    }
+    // {
+    //     image.read(current_path + "assets/awesomeface.png");
+    //     printf("%d %d %d\n", image.getWidth(), image.getHeight(), image.getChannels());
+    //     for(int i = 0; i < image.getHeight(); ++i) {
+    //         for(int j = 0; j < image.getWidth(); ++j) {
+    //             image.setColor(i, j, image.getColor(i, j));
+    //         }
+    //     }
+    //     image.write(current_path + "result/awesomeface_copy.png");
+    // }
+
+    // 使用某一种颜色刷新
+    // {
+    //     image.setWidth(400);
+    //     image.setHeight(400);
+    //     image.init();
+    //     image.setBackColor(Math::Vec3f(1.0, 0.0, 0.0));
+    //     image.write(current_path + "result/red.png");
+    // }
 
 }

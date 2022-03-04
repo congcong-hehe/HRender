@@ -3,9 +3,8 @@
 
 #pragma once
 
-#include "../math/vec3f.h"
-#include "../math/vec3i.h"
-#include "../math/vec2f.h"
+#include "../math/vec3.h"
+#include "../math/vec2.h"
 #include <vector>
 #include <string>
 
@@ -27,12 +26,12 @@ public:
     void setUVIndices(const std::vector<Math::Vec3i> &indices) { uv_indices_ = indices; }
     void setColorIndices(const std::vector<Math::Vec3i> &indices) { color_indices_ = indices; }
 
-    std::vector<Math::Vec3f> getVertices() { return vertices_; }
-    std::vector<Math::Vec3f> getColors() { return colors_; }
-    std::vector<Math::Vec3i> getVertexIndices() { return vertex_indices_; }
-    std::vector<Math::Vec3i> getNormalIndices() { return normal_indices_; }
-    std::vector<Math::Vec3i> getUVIndices() { return uv_indices_; }
-    std::vector<Math::Vec3i> geColorIndices() { return color_indices_; }
+    std::vector<Math::Vec3f>& getVertices() { return vertices_; }
+    std::vector<Math::Vec3f>& getColors() { return colors_; }
+    std::vector<Math::Vec3i>& getVertexIndices() { return vertex_indices_; }
+    std::vector<Math::Vec3i>& getNormalIndices() { return normal_indices_; }
+    std::vector<Math::Vec3i>& getUVIndices() { return uv_indices_; }
+    std::vector<Math::Vec3i>& geColorIndices() { return color_indices_; }
 
 private:
     std::vector<Math::Vec3i> vertex_indices_;

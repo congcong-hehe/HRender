@@ -6,9 +6,8 @@
 #include <vector>
 #include <memory>
 #include "context.h"
-#include "../math/vec3f.h"
-#include "../math/vec2i.h"
-#include "../math/vec2f.h"
+#include "../math/vec3.h"
+#include "../math/vec2.h"
 #include "image.h"
 #include "../object/tri_mesh.h"
 #include "../shader/shader.h"

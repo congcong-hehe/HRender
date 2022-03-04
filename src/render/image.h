@@ -4,7 +4,7 @@
 #pragma once
 
 #include <string>
-#include "../math/vec3f.h"
+#include "../math/vec3.h"
 
 class Image {
 public:
@@ -15,6 +15,7 @@ public:
     Math::Vec3f getColor(const int u, const int v) const;
     Math::Vec3f getColor(const float u, const float v) const;
     void setColor(const int u, const int v, const Math::Vec3f &color) const;
+    void setBackColor(const Math::Vec3f &color) const;
     bool init();
 
     int getHeight() const { return height_; }
