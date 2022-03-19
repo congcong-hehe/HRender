@@ -35,11 +35,15 @@ void Pipeline::vertexShader() {
     auto vs = dynamic_pointer_cast<BaseVSShader>(vs_);
 
     auto &vertices = mesh_->getVertices();
+    auto &uvs = mesh_->getUvs();
     screen_vertices_.resize(vertices.size());
+    screen_uvs_.resize(uvs.size());
     for(int j = 0; j < vertices.size(); ++j) {
         Vec3f &vertex = vertices[j];
+        Vec2f &uv = uvs[j];
         // 顶点着色器
         vs->pos = vertex;
+        vs->uv = uv;
         vs->execute();
 
         // 视口变换
@@ -48,6 +52,7 @@ void Pipeline::vertexShader() {
         // opengl的窗口的图片的坐标是反的，所以需要颠倒一下
         x = h_ - x;
         screen_vertices_[j] = Vec2f(x, y);
+        screen_uvs_[j] = vs->uv;
     }
 
 }
@@ -131,11 +136,12 @@ void Pipeline::rasterAndFragmentShader() {
 
                         Vec3f bc = barycentric(A, B, C, P);
                         if(bc.x < 0 || bc.y < 0 || bc.z < 0) continue;  // 点不在三角形中
-
-                        // Vec3f color;
-                        // color += mesh_->getColors()[vertex_indice.x] * bc.x;
-                        // color += mesh_->getColors()[vertex_indice.y] * bc.y;
-                        // color += mesh_->getColors()[vertex_indice.z] * bc.z;
+                        
+                        // 插值纹理
+                        fs->uv = Vec2f(0.0f, 0.0f);
+                        fs->uv += bc.x * screen_uvs_[vertex_indice.x];
+                        fs->uv += bc.y * screen_uvs_[vertex_indice.y];
+                        fs->uv += bc.z * screen_uvs_[vertex_indice.z];
 
                         // 顶点着色器
                         fs->execute();
@@ -163,8 +169,10 @@ void Pipeline::rasterAndFragmentShader() {
 
 void Pipeline::renderMesh(shared_ptr<TriMesh> mesh) {
     mesh_ = mesh;
+    DEBUG
     vertexShader();
+    DEBUG
     rasterAndFragmentShader();
-
+    DEBUG
     image_.write(path_);
 }

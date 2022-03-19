@@ -5,6 +5,8 @@
 
 enum class Mode { WIRE, FILL};
 
+enum class TextureMode { LINEAR, NEAREST };
+
 class Context {
 public:
     Mode mode;  // 绘制的模式：线框还是填充

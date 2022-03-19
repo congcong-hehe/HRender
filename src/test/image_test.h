@@ -12,9 +12,9 @@ void imageTest() {
     // 基本读写
     {
         // 文件读取
-        image.read(current_path + "assets/wall.jpg");
+        image.read(current_path + "assets/awesomeface.png");
         // 文件写入
-        image.write(current_path + "result/wall.png");
+        image.write(current_path + "result/awesomeface.png");
     }
 
     // 取像素

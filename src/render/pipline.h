@@ -42,6 +42,7 @@ private:
 
 private:
     std::vector<Math::Vec2f> screen_vertices_; // 经过坐标变换到显示窗口坐标系的顶点位置
+    std::vector<Math::Vec2f> screen_uvs_;  // 光栅化之后的坐标的uv值
 };
 
 Math::Vec3f barycentric(Math::Vec2f A, Math::Vec2f B, Math::Vec2f C, Math::Vec2f P);  // 计算一点在三角形中的重心坐标
