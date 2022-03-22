@@ -169,7 +169,6 @@ void Pipeline::rasterAndFragmentShader() {
 
 void Pipeline::renderMesh(shared_ptr<TriMesh> mesh) {
     mesh_ = mesh;
-    DEBUG
     vertexShader();
     DEBUG
     rasterAndFragmentShader();

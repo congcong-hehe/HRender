@@ -8,6 +8,6 @@ inline T lerp(T &a, T &b, float weight) {
 }
 
 // 得到正数浮点数的小数部分
-float fract(const float f) {
+inline float fract(const float f) {
     return f - static_cast<int>(f);
 }

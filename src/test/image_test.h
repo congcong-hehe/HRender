@@ -10,21 +10,21 @@ void imageTest() {
     Image image;
 
     // 基本读写
-    {
-        // 文件读取
-        image.read(current_path + "assets/awesomeface.png");
-        // 文件写入
-        image.write(current_path + "result/awesomeface.png");
-    }
-
-    // 取像素
     // {
     //     // 文件读取
-    //     image.read(current_path + "image/texture/wall.jpg");
-    //     // 逐像素读取
-    //     Vec3f color = image.getColor(0.5f, 0.5f);
-    //     printf("%f %f %f\n", color.x, color.y, color.z);
+    //     image.read(current_path + "assets/awesomeface.png");
+    //     // 文件写入
+    //     image.write(current_path + "result/awesomeface.png");
     // }
+
+    // 取像素
+    {
+        // 文件读取
+        image.read(current_path + "assets/wall.jpg");
+        // 逐像素读取
+        Vec3f color = image.getColor(0.5f, 0.5f);
+        printf("%f %f %f\n", color.x, color.y, color.z);
+    }
 
     // 写入像素
     // {

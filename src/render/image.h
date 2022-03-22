@@ -28,6 +28,6 @@ public:
 private:
     int width_ = 512;
     int height_ = 512;
-    int channels_ = 3;
+    int channels_ = 4;
     unsigned char *data_ = nullptr;
 };

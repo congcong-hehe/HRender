@@ -104,4 +104,16 @@ inline Mat4 rotate(Vec3f &vec, AXIS I, float theta) {
     return mat;
 }
 
+    Mat4 ortho(float left, float right, float bottom, float top, float znear, float zfar) {
+        Mat4 ans;
+
+        return ans;
+    }
+
+    Mat4 perspective(float fovx, float aspect, float znear, float zfar) {
+        Mat4 ans;
+
+        return ans;
+    }
+
 }

@@ -6,6 +6,6 @@
 using namespace std;
 
 int main(int argc, char** argv) {
-    mathTest();
+    drawCube();
     return 0;
 }
