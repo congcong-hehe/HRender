@@ -6,8 +6,8 @@
 using namespace Math;
 
 void mathTest() {
-    Mat4 mat1 = translate(Vec3f(1.0f, 2.0f, 3.0f));
-    Mat4 mat2 = scale(Vec3f(2.0f, 2.0f, 2.0f));
+    Mat4 mat1 = getTranslate(Vec3f(1.0f, 2.0f, 3.0f));
+    Mat4 mat2 = getScale(Vec3f(2.0f, 2.0f, 2.0f));
     Mat4 mat3 = mat1 * mat2;
 
     for(int i = 0; i < 4; ++i) {

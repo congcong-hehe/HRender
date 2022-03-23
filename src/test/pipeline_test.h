@@ -18,11 +18,15 @@ void drawCube() {
     texture2.setMode(TextureMode::LINEAR);
 
     Texture texture1;
-    texture1.load(current_path + "assets/wall.jpg");
+    texture1.load(current_path + "assets/container.jpg");
     texture1.setMode(TextureMode::LINEAR);
+
+    Mat4 rotateX = getRotate(AXIS::X, 1.0f);
+    Mat4 rotateY = getRotate(AXIS::Y, 1.0f);
 
     shared_ptr<VertexShader> vs = make_shared<BaseVSShader>();
     shared_ptr<FragmentShader> fs = make_shared<BaseFSShader>();
+    dynamic_pointer_cast<BaseVSShader>(vs)->rotate = rotateX * rotateY;
     dynamic_pointer_cast<BaseFSShader>(fs)->texture1 = &texture1; // 纹理绑定
     dynamic_pointer_cast<BaseFSShader>(fs)->texture2 = &texture2; // 纹理绑定
     pipeline.setVertexShader(vs);
@@ -134,5 +138,6 @@ void drawCube() {
     };
     mesh->moveUvs(uvs);
     pipeline.setPolygonMode(Mode::FILL);
+    pipeline.setZtest(true);
     pipeline.renderMesh(mesh);
 }

@@ -22,6 +22,7 @@ void Pipeline::init(const int w, const int h) {
     w_ = w;
     h_ = h;
     setImage(w, h, 3);
+    z_buffer_.resize(w_ * h_, FLT_MAX);
 }
 
 void Pipeline::setImage(int w, int h, int c) {
@@ -38,6 +39,7 @@ void Pipeline::vertexShader() {
     auto &uvs = mesh_->getUvs();
     screen_vertices_.resize(vertices.size());
     screen_uvs_.resize(uvs.size());
+    zs_.resize(vertices.size());
     for(int j = 0; j < vertices.size(); ++j) {
         Vec3f &vertex = vertices[j];
         Vec2f &uv = uvs[j];
@@ -53,6 +55,7 @@ void Pipeline::vertexShader() {
         x = h_ - x;
         screen_vertices_[j] = Vec2f(x, y);
         screen_uvs_[j] = vs->uv;
+        zs_[j] = vertex.z;
     }
 
 }
@@ -137,6 +140,15 @@ void Pipeline::rasterAndFragmentShader() {
                         Vec3f bc = barycentric(A, B, C, P);
                         if(bc.x < 0 || bc.y < 0 || bc.z < 0) continue;  // 点不在三角形中
                         
+                        // early - z测试
+                        if(context_.ifZtest) {
+                            float z = bc.x * zs_[vertex_indice.x] + bc.y * zs_[vertex_indice.y] + bc.z * zs_[vertex_indice.z];
+                            if(z_buffer_[x * w_ + y] > z) {    // 通过深度测试
+                                z_buffer_[x * w_ + y] = z;
+                            }
+                            else continue;
+                        }
+
                         // 插值纹理
                         fs->uv = Vec2f(0.0f, 0.0f);
                         fs->uv += bc.x * screen_uvs_[vertex_indice.x];

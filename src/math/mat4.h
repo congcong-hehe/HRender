@@ -1,5 +1,6 @@
 // make by hyq
 // 2022/3/19
+#pragma once
 
 #include "vec4.h"
 #include "vec3.h"
@@ -45,14 +46,14 @@ struct Mat4
         Vec4f ans;
         for(int i = 0; i < 4; ++i) {
             for(int j = 0; j < 4; ++j) {
-                ans[i] = arr[i][j] * vec[j];
+                ans[i] += arr[i][j] * vec[j];
             }
         }
         return ans;
     }
 };
 
-inline Mat4 translate(Vec3f &vec) {
+inline Mat4 getTranslate(Vec3f &vec) {
     Mat4 mat;
     mat.arr[0][3] = vec[0];
     mat.arr[1][3] = vec[1];
@@ -61,7 +62,7 @@ inline Mat4 translate(Vec3f &vec) {
     return mat;
 }
 
-inline Mat4 scale(Vec3f &vec) {
+inline Mat4 getScale(Vec3f &vec) {
     Mat4 mat;
     mat.arr[0][0] = vec[0];
     mat.arr[1][1] = vec[1];
@@ -73,7 +74,7 @@ inline Mat4 scale(Vec3f &vec) {
 enum AXIS {X, Y, Z};
 
 // theta是弧度值
-inline Mat4 rotate(Vec3f &vec, AXIS I, float theta) {
+inline Mat4 getRotate(AXIS I, float theta) {
     Mat4 mat;
     float cos_theta = cos(theta);
     float sin_theta = sin(theta);
@@ -104,13 +105,13 @@ inline Mat4 rotate(Vec3f &vec, AXIS I, float theta) {
     return mat;
 }
 
-    Mat4 ortho(float left, float right, float bottom, float top, float znear, float zfar) {
+    inline Mat4 getOrtho(float left, float right, float bottom, float top, float znear, float zfar) {
         Mat4 ans;
 
         return ans;
     }
 
-    Mat4 perspective(float fovx, float aspect, float znear, float zfar) {
+    inline Mat4 getPerspective(float fovx, float aspect, float znear, float zfar) {
         Mat4 ans;
 
         return ans;
