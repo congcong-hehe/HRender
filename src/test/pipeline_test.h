@@ -23,10 +23,14 @@ void drawCube() {
 
     Mat4 rotateX = getRotate(AXIS::X, 1.0f);
     Mat4 rotateY = getRotate(AXIS::Y, 1.0f);
+    Mat4 projection = getPerspective(radians(100.0f), 1.0, 0.1, 100.0f);
+    Mat4 view = lookAt(Vec3f(0.0f, 0.0f, 15.0f), Vec3f(0.0f, 0.0f, 0.0f), Vec3f(0.0f, 1.0f, 0.0f));
 
     shared_ptr<VertexShader> vs = make_shared<BaseVSShader>();
     shared_ptr<FragmentShader> fs = make_shared<BaseFSShader>();
     dynamic_pointer_cast<BaseVSShader>(vs)->rotate = rotateX * rotateY;
+    dynamic_pointer_cast<BaseVSShader>(vs)->projection = projection;
+    dynamic_pointer_cast<BaseVSShader>(vs)->view = view;
     dynamic_pointer_cast<BaseFSShader>(fs)->texture1 = &texture1; // 纹理绑定
     dynamic_pointer_cast<BaseFSShader>(fs)->texture2 = &texture2; // 纹理绑定
     pipeline.setVertexShader(vs);

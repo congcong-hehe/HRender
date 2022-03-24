@@ -16,13 +16,14 @@ class BaseVSShader : public VertexShader{
 public:
     // in
     Math::Mat4 rotate;
+    Math::Mat4 projection;
+    Math::Mat4 view;
     Math::Vec3f pos;
-    Math::Vec2f uv;
 
     // out
 
     void execute() override {
-        gl_position = rotate * Math::Vec4f(pos.x, pos.y, pos.z, 1.0f) / 10.f;
+        gl_position = projection * view * rotate * (Math::Vec4f(pos.x, pos.y, pos.z, 1.0f));
     }
 };
 

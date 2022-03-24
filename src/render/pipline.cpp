@@ -36,28 +36,52 @@ void Pipeline::vertexShader() {
     auto vs = dynamic_pointer_cast<BaseVSShader>(vs_);
 
     auto &vertices = mesh_->getVertices();
-    auto &uvs = mesh_->getUvs();
-    screen_vertices_.resize(vertices.size());
-    screen_uvs_.resize(uvs.size());
-    zs_.resize(vertices.size());
+    vertices_.resize(vertices.size());
     for(int j = 0; j < vertices.size(); ++j) {
-        Vec3f &vertex = vertices[j];
-        Vec2f &uv = uvs[j];
         // 顶点着色器
-        vs->pos = vertex;
-        vs->uv = uv;
+        vs->pos = vertices[j];
         vs->execute();
 
-        // 视口变换
-        float y = (vs->gl_position.x + 1) / 2.0f * w_;
-        float x = (vs->gl_position.y + 1) / 2.0f * h_;
-        // opengl的窗口的图片的坐标是反的，所以需要颠倒一下
-        x = h_ - x;
-        screen_vertices_[j] = Vec2f(x, y);
-        screen_uvs_[j] = vs->uv;
-        zs_[j] = vertex.z;
+        vertices_[j] = vs->gl_position;
+        vertices_[j].z = vertices[j].z; // 等于变换前还是后的z值，这是一个选择
     }
 
+}
+
+// 裁剪并使用透视除法
+// 考虑简单的情况，裁剪的时候只对整个三角形进行裁剪，不考虑产生新的三角形
+void Pipeline::perspectiveDivision() {
+    auto &indices = mesh_->getVertexIndices();
+    for(int i = 0; i < indices.size(); ++i) {
+        bool tag = false;
+        for(int j = 0; j < 3; ++j) {
+            int index = indices[i][j];
+            Vec4f &v = vertices_[index];
+            // 裁剪 
+            float abs_w = abs(v.w);
+            if(abs(v.x) > abs_w || abs(v.y) > abs_w || abs(v.z) > abs_w) {
+                tag = true;
+                break;
+            }
+
+            v.x /= v.w;
+            v.y /= v.w;
+            // v.z /= v.w;
+        }
+        if(!tag) indices_.emplace_back(indices[i]);
+    }
+}
+
+void Pipeline::viewPort() {
+    // 视口变换
+    for(int i = 0; i < vertices_.size(); ++i) {
+        float y = (vertices_[i].x + 1) / 2.0f * w_;
+        float x = (vertices_[i].y + 1) / 2.0f * h_;
+        // opengl的窗口的图片的坐标是反的，所以需要颠倒一下
+        x = h_ - x;
+        vertices_[i].x = x;
+        vertices_[i].y = y;
+    }
 }
 
 // 计算一个点在三角形中的重心坐标
@@ -111,26 +135,26 @@ void Pipeline::drawLine(int x0, int y0, int x1, int y1, Math::Vec3f &color) {
 // 从上面的链接可以看出光栅化之后，片段着色器和其在一个模块中分为多个运行
 void Pipeline::rasterAndFragmentShader() {
     auto fs = dynamic_pointer_cast<BaseFSShader>(fs_);
-    auto &vertex_indices = mesh_->getVertexIndices();
+    auto &uvs = mesh_->getUvs();
     switch(context_.mode) {
         case Mode::FILL:
-            for(int j = 0; j < vertex_indices.size(); ++j) {
-                auto &vertex_indice = vertex_indices[j];
+            for(int j = 0; j < indices_.size(); ++j) {
+                auto &vertex_indice = indices_[j];
 
                 Vec2f box_min(static_cast<float>(image_.getWidth() - 1), static_cast<float>(image_.getWidth() - 1));
                 Vec2f box_max(0.f, 0.f);
 
                 // 计算包围盒
                 for(int k = 0; k < 3; ++k) {
-                    box_min.x = min(box_min.x, screen_vertices_[vertex_indice.vec[k]].x);
-                    box_min.y = min(box_min.y, screen_vertices_[vertex_indice.vec[k]].y);
-                    box_max.x = max(box_max.x, screen_vertices_[vertex_indice.vec[k]].x);
-                    box_max.y = max(box_max.y, screen_vertices_[vertex_indice.vec[k]].y);
+                    box_min.x = min(box_min.x, vertices_[vertex_indice.vec[k]].x);
+                    box_min.y = min(box_min.y, vertices_[vertex_indice.vec[k]].y);
+                    box_max.x = max(box_max.x, vertices_[vertex_indice.vec[k]].x);
+                    box_max.y = max(box_max.y, vertices_[vertex_indice.vec[k]].y);
                 }
 
-                Vec2f &A = screen_vertices_[vertex_indice.x];
-                Vec2f &B = screen_vertices_[vertex_indice.y];
-                Vec2f &C = screen_vertices_[vertex_indice.z];
+                Vec2f A = Vec2f(vertices_[vertex_indice.x].x, vertices_[vertex_indice.x].y);
+                Vec2f B = Vec2f(vertices_[vertex_indice.y].x, vertices_[vertex_indice.y].y);
+                Vec2f C = Vec2f(vertices_[vertex_indice.z].x, vertices_[vertex_indice.z].y);
 
                 // 对包围盒中的每一个像素处理
                 for(int x = static_cast<int>(box_min.x); x <= box_max.x; ++x) {
@@ -142,7 +166,7 @@ void Pipeline::rasterAndFragmentShader() {
                         
                         // early - z测试
                         if(context_.ifZtest) {
-                            float z = bc.x * zs_[vertex_indice.x] + bc.y * zs_[vertex_indice.y] + bc.z * zs_[vertex_indice.z];
+                            float z = bc.x * vertices_[vertex_indice.x].z + bc.y * vertices_[vertex_indice.y].z + bc.z * vertices_[vertex_indice.z].z;
                             if(z_buffer_[x * w_ + y] > z) {    // 通过深度测试
                                 z_buffer_[x * w_ + y] = z;
                             }
@@ -151,9 +175,9 @@ void Pipeline::rasterAndFragmentShader() {
 
                         // 插值纹理
                         fs->uv = Vec2f(0.0f, 0.0f);
-                        fs->uv += bc.x * screen_uvs_[vertex_indice.x];
-                        fs->uv += bc.y * screen_uvs_[vertex_indice.y];
-                        fs->uv += bc.z * screen_uvs_[vertex_indice.z];
+                        fs->uv += bc.x * uvs[vertex_indice.x];
+                        fs->uv += bc.y * uvs[vertex_indice.y];
+                        fs->uv += bc.z * uvs[vertex_indice.z];
 
                         // 顶点着色器
                         fs->execute();
@@ -165,11 +189,12 @@ void Pipeline::rasterAndFragmentShader() {
         break;
 
         case Mode::WIRE :
-            for(int j = 0; j < vertex_indices.size(); ++j) {
-                auto &vertex_indice = vertex_indices[j];
+            for(int j = 0; j < indices_.size(); ++j) {
+                auto &vertex_indice = indices_[j];
                 for(int i = 0; i < 3; ++i) {
-                    Vec2f &v0 = screen_vertices_[vertex_indice.vec[i % 3]];
-                    Vec2f &v1 = screen_vertices_[vertex_indice.vec[(i + 1) % 3]];
+                    Vec2f v0 = Vec2f(vertices_[vertex_indice.vec[i % 3]].x, vertices_[vertex_indice.vec[i % 3]].y);
+                    Vec2f v1 = Vec2f(vertices_[vertex_indice.vec[(i + 1) % 3]].x, vertices_[vertex_indice.vec[(i + 1) % 3]].y);
+
                     fs->execute();
                     drawLine(static_cast<int>(v0.x), static_cast<int>(v0.y), static_cast<int>(v1.x), static_cast<int>(v1.y),
                         fs->frag_color);
@@ -182,8 +207,10 @@ void Pipeline::rasterAndFragmentShader() {
 void Pipeline::renderMesh(shared_ptr<TriMesh> mesh) {
     mesh_ = mesh;
     vertexShader();
-    DEBUG
+    perspectiveDivision();
+    viewPort();
+    // DEBUG
     rasterAndFragmentShader();
-    DEBUG
+    // DEBUG
     image_.write(path_);
 }

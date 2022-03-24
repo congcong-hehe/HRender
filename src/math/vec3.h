@@ -25,6 +25,7 @@ public:
 	T& operator [](size_t index) { return vec[index]; }
 	T norm() const { return sqrt(normSquare()); }
 	T normSquare() const { return x * x + y * y + z * z; }
+	Vec<3, T> normalization() const {return *this / norm(); }
 
 	Vec<3, T>& operator += (T p) { x += p; y += p; z += p; return *this; }
 	Vec<3, T>& operator -= (T p) { x -= p; y -= p; z -= p; return *this; }

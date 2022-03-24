@@ -4,6 +4,7 @@
         "memory": "cpp",
         "vector": "cpp",
         "string": "cpp",
-        "cmath": "cpp"
+        "cmath": "cpp",
+        "cstdlib": "cpp"
     }
 }

@@ -105,8 +105,16 @@ inline Mat4 getRotate(AXIS I, float theta) {
     return mat;
 }
 
+    // http://www.songho.ca/opengl/gl_projectionmatrix.html
     inline Mat4 getOrtho(float left, float right, float bottom, float top, float znear, float zfar) {
         Mat4 ans;
+        
+        ans.arr[0][0] = 2.0f / (right - left);
+        ans.arr[1][1] = 2.0f / (top - bottom);
+        ans.arr[2][2] = -2.0f / (zfar - znear);
+        ans.arr[0][3] = -(right + left) / (right - left);
+        ans.arr[1][3] = -(top + bottom) / (top - bottom);
+        ans.arr[2][3] = -(zfar + znear) / (zfar - znear);   // 变换之后仍然是右手坐标系，和opengl不同
 
         return ans;
     }
@@ -114,7 +122,44 @@ inline Mat4 getRotate(AXIS I, float theta) {
     inline Mat4 getPerspective(float fovx, float aspect, float znear, float zfar) {
         Mat4 ans;
 
+        float r = znear * tan(fovx / 2.0);
+        float t = r / aspect;
+
+        ans.arr[0][0] = znear / r;
+        ans.arr[1][1] = znear / t;
+        ans.arr[2][2] = -(zfar + znear) / (zfar - znear);
+        ans.arr[2][3] = -2.0f * zfar * znear / (zfar - znear);
+        ans.arr[3][2] = -1;
+        ans.arr[4][4] = 0;
+
         return ans;
+    }
+
+    inline Mat4 lookAt(Vec3f &camera_pos, Vec3f &target, Vec3f up) {
+        Vec3f dir = (target - camera_pos).normalization();
+        Vec3f right = cross(up.normalization(), dir).normalization();
+        up = cross(dir, right).normalization();
+
+        Mat4 a;
+        a.arr[0][0] = right.x;
+        a.arr[0][1] = right.y;
+        a.arr[0][2] = right.z;
+
+        a.arr[1][0] = up.x;
+        a.arr[1][1] = up.y;
+        a.arr[1][2] = up.z;
+
+        a.arr[2][0] = dir.x;
+        a.arr[2][1] = dir.y;
+        a.arr[2][2] = dir.z;
+
+        Mat4 b;
+
+        b.arr[0][3] = -camera_pos.x;
+        b.arr[1][3] = -camera_pos.y;
+        b.arr[2][3] = -camera_pos.z;
+
+        return a * b;
     }
 
 }
