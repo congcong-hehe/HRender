@@ -18,11 +18,12 @@ public:
 		struct { T vec[2]; };
 	};
 
-	Vec<2, T>() { x = y = 0; }
-	Vec<2, T>(const Vec<2, T>& v) { x = v.x; y = v.y; }
-	Vec<2, T>(T _x, T _y) { x = _x; y = _y; }
+	Vec<2, T>() : x(0), y(0) {}
+	Vec<2, T>(const Vec<2, T>& v) : x(v.x), y(v.y) {}
+	Vec<2, T>(T _x, T _y) : x(_x), y(_y) {}
 
 	T& operator [](size_t index) { return vec[index]; }
+	T operator [](size_t index) const { return vec[index]; }
 	T norm() const { return sqrt(normSquare()); }
 	T normSquare() const { return x * x + y * y; }
 

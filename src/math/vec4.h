@@ -19,9 +19,9 @@ public:
 		struct { T vec[4]; };
 	};
 
-	Vec<4, T>() { x = y = z = w = 0; }
-	Vec<4, T>(const Vec<4, T>& v) { x = v.x; y = v.y; z = v.z; w = v.w;}
-	Vec<4, T>(T _x, T _y, T _z, T _w) { x = _x; y = _y; z = _z; w = _w;}
+	Vec<4, T>() : x(0), y(0), z(0), w(0) {}
+	Vec<4, T>(const Vec<4, T>& v) : x(v.x), y(v.y), z(v.z), w(v.w) {}
+	Vec<4, T>(T _x, T _y, T _z, T _w) : x(_x), y(_y), z(_z), w(_w) {}
 	T& operator [](size_t index) { return vec[index]; }
 	T operator [](size_t index) const { return vec[index]; }
 	T norm() const { return sqrt(normSquare()); }

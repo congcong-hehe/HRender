@@ -22,7 +22,7 @@ void imageTest() {
         // 文件读取
         image.read(current_path + "assets/wall.jpg");
         // 逐像素读取
-        Vec3f color = image.getColor(0.5f, 0.5f);
+        Vec3f color = image.getColor<3>(0.5f, 0.5f);
         printf("%f %f %f\n", color.x, color.y, color.z);
     }
 

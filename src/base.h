@@ -5,6 +5,6 @@
 
 #include <string>
 #include <stdio.h>
-const std::string current_path = "D:/study_data/pro/mypro/HRender/HRender/";
+const std::string current_path = "D:/study_data/pro/mypro/HSoftwareRender/HRender/";
 
 #define DEBUG printf("%s %d\n", __FILE__, __LINE__);

@@ -1,86 +1,111 @@
-// make by hyq
-// 2021/11/16
-
 #include "image.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "../../third_party/stb_image.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "../../third_party/stb_image_write.h"
+#define STB_IMAGE_RESIZE_IMPLEMENTATION
+#include "../../third_party/std_image_resize.h"
 #include <iostream>
 #include <string>
-#include "../math/vec3.h"
 
-using namespace std;
-using namespace Math;
+Image::Image() : width_(512), height_(512), channels_(3), data_(nullptr) {
 
-Image::Image() {
-    
+}
+
+Image::Image(int width, int height, int channels) : width_(width), height_(height), channels_(channels) {
+    init();
 }
 
 Image::~Image() {
-    stbi_image_free(data_);
+    if (data_ != nullptr)
+        stbi_image_free(data_);
 }
 
-bool Image::read(const string &file_path) {
+Image::Image(const Image& image) {
+    width_ = image.width_;
+    height_ = image.height_;
+    channels_ = image.channels_;
+    if (image.data_ != nullptr)
+        memcpy(data_, image.data_, width_ * height_ * channels_);
+    else data_ = nullptr;
+}
+
+Image::Image(Image&& image) noexcept {
+    width_ = image.width_;
+    height_ = image.height_;
+    channels_ = image.channels_;
+    data_ = image.data_;
+    image.data_ = nullptr;
+}
+
+bool Image::init() {
+    data_ = (unsigned char*)stbi__malloc(width_ * height_ * channels_);
+    if (!data_) {
+        printf("ERROR: Could not malloc memory for image\n");
+        return false;
+    }
+    else {
+        memset(data_, 0, width_ * height_ * channels_);
+        return true;
+    }
+}
+
+bool Image::read(const std::string& file_path) {
     int channels = 0;
-    // 读取image的时候，分配的内存是按照自己设置的channels来分配的，channels输出的是image的位深度
     data_ = stbi_load(file_path.c_str(), &width_, &height_, &channels, channels_);
-    if(!data_) {
+    if (!data_) {
         printf("ERROR: Could not read image file %s\n", file_path.c_str());
         return false;
-    } else {
+    }
+    else {
         printf("LOG: Load image file %s\n", file_path.c_str());
         return true;
     }
 }
 
-// 暂时全部保存为png形式
-bool Image::write(const string &file_path) const {
-    int tag = stbi_write_png(file_path.c_str(), width_, height_, channels_, data_, width_ * channels_);
-    if(0 == tag) {
+bool Image::write(const std::string& file_path) const {
+    if (data_ == nullptr) {
         printf("ERROR: Could not write image file %s\n", file_path.c_str());
         return false;
-    } else {
+    }
+    int tag = stbi_write_png(file_path.c_str(), width_, height_, channels_, data_, width_ * channels_);
+    if (0 == tag) {
+        printf("ERROR: Could not write image file %s\n", file_path.c_str());
+        return false;
+    }
+    else {
         printf("LOG: Write image file %s\n", file_path.c_str());
         return true;
     }
 }
 
-Vec3f Image::getColor(const int u, const int v) const {
-    assert(u < height_ && u >= 0);
-    assert(v < width_ && v >= 0);
+float Image::getColor(const int u, const int v) const {
+    assert(u < height_&& u >= 0);
+    assert(v < width_&& v >= 0);
 
-    float scale = 1/255.0f;
+    static float scale = 1 / 255.0f;
     int index = u * channels_ * width_ + v * channels_;
-    return Vec3f(scale * data_[index], scale * data_[index + 1], scale * data_[index + 2]);
+
+    return data_[index] * scale;
 }
 
-void Image::setColor(const int u, const int v, const Vec3f &color) const {
-    assert(u < height_ && u >= 0);
-    assert(v < width_ && v >= 0);
-
-    float scale = 255.0f;
-    int index = u * channels_ * width_ + v * channels_;
-    data_[index] = static_cast<int>(color.r * scale);
-    data_[index + 1] = static_cast<int>(color.g * scale);
-    data_[index + 2] = static_cast<int>(color.b * scale);
-}
-
-void Image::setBackColor(const Math::Vec3f &color) const
+void Image::setColor(const int u, const int v, float gray) const
 {
-    for(int i = 0; i < height_; ++i) {
-        for(int j = 0; j < width_; ++j)
-            setColor(i, j, color);
-    }
+    assert(u < height_&& u >= 0);
+    assert(v < width_&& v >= 0);
+
+    static float scale = 255.0f;
+    int index = u * channels_ * width_ + v * channels_;
+
+    data_[index] = (unsigned char)(gray * scale);
 }
 
-bool Image::init() {
-    data_  = (unsigned char*)stbi__malloc(width_ * height_ * channels_);
-    if(!data_) {
-        printf("ERROR: Could not malloc memory for image\n");
-        return false;
-    } else {
-        memset(data_, 0, width_ * height_ * channels_);
-        return true;
+Image Image::resize(int w, int h) const
+{
+    Image ans(w, h, channels_);
+    if (data_ != nullptr)
+    {
+        stbir_resize_uint8(data_, width_, height_, 0, ans.data_, w, h, 0, channels_);
     }
+    return ans;
 }
