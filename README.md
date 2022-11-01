@@ -14,13 +14,6 @@ xmake run
 * 正交投影，透视投影，透视除法
 * 摄像机
 
-## todo
-* 窗口
-* MSAA
-* mipmap
-* swapchain,framebuffer
-* trimesh load
-* multiple thread
 ## Result
 ![img](result/interpolation.png)
 
